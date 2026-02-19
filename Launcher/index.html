@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Launcher</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="launcher">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>🎮 GAME LAUNCHER</h1>
+            </div>
+            <nav class="menu">
+                <button class="menu-btn active" data-page="library">
+                    <span class="icon">📚</span>
+                    <span>Библиотека</span>
+                    <span class="badge" id="library-count">0</span>
+                </button>
+                <button class="menu-btn" data-page="store">
+                    <span class="icon">🛒</span>
+                    <span>Магазин</span>
+                </button>
+                <button class="menu-btn" data-page="profile">
+                    <span class="icon">👤</span>
+                    <span>Профиль</span>
+                </button>
+                <button class="menu-btn" data-page="add-game">
+                    <span class="icon">➕</span>
+                    <span>Добавить игру</span>
+                </button>
+                <button class="menu-btn" data-page="achievements">
+                    <span class="icon">🏆</span>
+                    <span>Достижения</span>
+                </button>
+            </nav>
+            <div class="user-info">
+                <div class="avatar">👾</div>
+                <div class="user-details">
+                    <div class="username" id="username">Новичок</div>
+                    <div class="level">Уровень: <span id="user-level">1</span></div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Library Page -->
+            <div class="page active" id="library-page">
+                <header class="page-header">
+                    <h2>Моя Библиотека</h2>
+                    <div class="search-bar">
+                        <input type="text" id="search-input" placeholder="🔍 Поиск игр...">
+                        <select id="filter-select">
+                            <option value="all">Все игры</option>
+                            <option value="favorites">Избранное</option>
+                            <option value="recent">Недавние</option>
+                        </select>
+                    </div>
+                </header>
+                <div class="games-grid" id="games-grid"></div>
+            </div>
+
+            <!-- Store Page -->
+            <div class="page" id="store-page">
+                <header class="page-header">
+                    <h2>Магазин Игр</h2>
+                    <p class="subtitle">Бесплатные HTML игры для вашей коллекции</p>
+                </header>
+                <div class="store-categories">
+                    <button class="category-btn active" data-category="all">Все</button>
+                    <button class="category-btn" data-category="action">Экшен</button>
+                    <button class="category-btn" data-category="puzzle">Головоломки</button>
+                    <button class="category-btn" data-category="arcade">Аркады</button>
+                    <button class="category-btn" data-category="adventure">Приключения</button>
+                </div>
+                <div class="games-grid" id="store-grid"></div>
+            </div>
+
+            <!-- Profile Page -->
+            <div class="page" id="profile-page">
+                <header class="page-header">
+                    <h2>Профиль</h2>
+                </header>
+                <div class="profile-content">
+                    <div class="profile-card">
+                        <div class="profile-avatar">👾</div>
+                        <div class="profile-info">
+                            <input type="text" id="username-input" placeholder="Введите имя">
+                            <button id="save-username-btn" class="btn-primary">Сохранить</button>
+                        </div>
+                        <div class="profile-stats">
+                            <div class="stat">
+                                <div class="stat-value" id="total-games">0</div>
+                                <div class="stat-label">Игр в библиотеке</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value" id="total-playtime">0</div>
+                                <div class="stat-label">Часов игры</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value" id="total-likes">0</div>
+                                <div class="stat-label">Лайков</div>
+                            </div>
+                        </div>
+                        <div class="rank-info">
+                            <h3>Ранг: <span id="rank-name">Новичок</span></h3>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="rank-progress"></div>
+                            </div>
+                            <p id="rank-description">Добавьте игры в библиотеку для повышения ранга!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Game Page -->
+            <div class="page" id="add-game-page">
+                <header class="page-header">
+                    <h2>Добавить Свою Игру</h2>
+                </header>
+                <div class="add-game-form">
+                    <div class="form-group">
+                        <label>Название игры</label>
+                        <input type="text" id="game-name" placeholder="Моя крутая игра">
+                    </div>
+                    <div class="form-group">
+                        <label>Путь к HTML файлу</label>
+                        <input type="text" id="game-path" placeholder="Games/my-game/index.html">
+                    </div>
+                    <div class="form-group">
+                        <label>Категория</label>
+                        <select id="game-category">
+                            <option value="action">Экшен</option>
+                            <option value="puzzle">Головоломка</option>
+                            <option value="arcade">Аркада</option>
+                            <option value="adventure">Приключение</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Описание</label>
+                        <textarea id="game-description" placeholder="Описание игры..."></textarea>
+                    </div>
+                    <button id="add-game-btn" class="btn-primary">Добавить Игру</button>
+                </div>
+            </div>
+
+            <!-- Achievements Page -->
+            <div class="page" id="achievements-page">
+                <header class="page-header">
+                    <h2>Достижения</h2>
+                </header>
+                <div class="achievements-grid" id="achievements-grid"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Game Modal -->
+    <div class="modal" id="game-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="close-modal">✕</button>
+            <div class="game-details">
+                <h2 id="modal-game-title"></h2>
+                <p id="modal-game-description"></p>
+                <div class="game-actions">
+                    <button id="play-game-btn" class="btn-primary">▶ Играть</button>
+                    <button id="like-game-btn" class="btn-secondary">❤️ <span id="like-count">0</span></button>
+                    <button id="favorite-game-btn" class="btn-secondary">⭐ В избранное</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="launcher.js"></script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Pong Game</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #000;
+            font-family: Arial, sans-serif;
+        }
+        canvas {
+            border: 2px solid white;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="pong" width="600" height="400"></canvas>
+    <script>
+        const canvas = document.getElementById('pong');
+        const ctx = canvas.getContext('2d');
+
+        const paddleWidth = 10, paddleHeight = 100;
+        const ballSize = 10;
+
+        let leftPaddle = { x: 0, y: canvas.height / 2 - paddleHeight / 2, dy: 0 };
+        let rightPaddle = { x: canvas.width - paddleWidth, y: canvas.height / 2 - paddleHeight / 2, dy: 0 };
+        let ball = { x: canvas.width / 2, y: canvas.height / 2, dx: 3, dy: 3 };
+        let score = { left: 0, right: 0 };
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'w') leftPaddle.dy = -5;
+            if (e.key === 's') leftPaddle.dy = 5;
+            if (e.key === 'ArrowUp') rightPaddle.dy = -5;
+            if (e.key === 'ArrowDown') rightPaddle.dy = 5;
+        });
+
+        document.addEventListener('keyup', (e) => {
+            if (e.key === 'w' || e.key === 's') leftPaddle.dy = 0;
+            if (e.key === 'ArrowUp' || e.key === 'ArrowDown') rightPaddle.dy = 0;
+        });
+
+        function draw() {
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(leftPaddle.x, leftPaddle.y, paddleWidth, paddleHeight);
+            ctx.fillRect(rightPaddle.x, rightPaddle.y, paddleWidth, paddleHeight);
+            ctx.fillRect(ball.x, ball.y, ballSize, ballSize);
+
+            ctx.font = '30px Arial';
+            ctx.fillText(score.left, canvas.width / 4, 50);
+            ctx.fillText(score.right, 3 * canvas.width / 4, 50);
+
+            leftPaddle.y += leftPaddle.dy;
+            rightPaddle.y += rightPaddle.dy;
+
+            if (leftPaddle.y < 0) leftPaddle.y = 0;
+            if (leftPaddle.y + paddleHeight > canvas.height) leftPaddle.y = canvas.height - paddleHeight;
+            if (rightPaddle.y < 0) rightPaddle.y = 0;
+            if (rightPaddle.y + paddleHeight > canvas.height) rightPaddle.y = canvas.height - paddleHeight;
+
+            ball.x += ball.dx;
+            ball.y += ball.dy;
+
+            if (ball.y <= 0 || ball.y + ballSize >= canvas.height) ball.dy *= -1;
+
+            if (ball.x <= paddleWidth && ball.y >= leftPaddle.y && ball.y <= leftPaddle.y + paddleHeight) {
+                ball.dx *= -1;
+            }
+
+            if (ball.x + ballSize >= canvas.width - paddleWidth && ball.y >= rightPaddle.y && ball.y <= rightPaddle.y + paddleHeight) {
+                ball.dx *= -1;
+            }
+
+            if (ball.x < 0) {
+                score.right++;
+                resetBall();
+            }
+
+            if (ball.x > canvas.width) {
+                score.left++;
+                resetBall();
+            }
+        }
+
+        function resetBall() {
+            ball.x = canvas.width / 2;
+            ball.y = canvas.height / 2;
+            ball.dx = (Math.random() > 0.5 ? 1 : -1) * 3;
+            ball.dy = (Math.random() > 0.5 ? 1 : -1) * 3;
+        }
+
+        setInterval(draw, 1000 / 60);
+    </script>
+</body>
+</html>
